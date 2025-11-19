@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Recomendación Inteligente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 Sistema de Recomendación Musical Inteligente</h1>
+            <p class="subtitle">Agente adaptativo con aprendizaje por refuerzo</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Selector de Usuario -->
+            <section class="card">
+                <h2>👤 Seleccionar Usuario</h2>
+                <div class="user-selector">
+                    <select id="userSelect" class="select-user">
+                        <option value="">Cargando usuarios...</option>
+                    </select>
+                    <button id="loadUserBtn" class="btn btn-primary">Cargar Usuario</button>
+                    <button id="randomUserBtn" class="btn btn-secondary">Usuario Aleatorio</button>
+                </div>
+            </section>
+
+            <!-- Estado del Usuario -->
+            <section class="card" id="userStateSection" style="display: none;">
+                <h2>📊 Estado del Usuario <span id="currentUserId"></span></h2>
+                <div class="user-state">
+                    <div class="state-grid">
+                        <div class="state-item">
+                            <span class="state-label">Engagement Musical</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="musicEngagement"></div>
+                            </div>
+                            <span class="state-value" id="musicEngagementValue">0%</span>
+                        </div>
+                        <div class="state-item">
+                            <span class="state-label">Diversidad Musical</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="musicDiversity"></div>
+                            </div>
+                            <span class="state-value" id="musicDiversityValue">0%</span>
+                        </div>
+                        <div class="state-item">
+                            <span class="state-label">Conectividad Social</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="socialConnectivity"></div>
+                            </div>
+                            <span class="state-value" id="socialConnectivityValue">0%</span>
+                        </div>
+                        <div class="state-item">
+                            <span class="state-label">Actividad Semántica</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="semanticActivity"></div>
+                            </div>
+                            <span class="state-value" id="semanticActivityValue">0%</span>
+                        </div>
+                        <div class="state-item highlight">
+                            <span class="state-label">🎯 Sofisticación General</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="overallSophistication"></div>
+                            </div>
+                            <span class="state-value" id="overallSophisticationValue">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recomendación -->
+            <section class="card" id="recommendationSection" style="display: none;">
+                <h2>🎵 Obtener Recomendación</h2>
+                <button id="getRecommendationBtn" class="btn btn-large btn-primary">
+                    🎲 Generar Recomendación
+                </button>
+                
+                <div id="recommendationResult" class="recommendation-result" style="display: none;">
+                    <div class="recommendation-card">
+                        <div class="artist-info">
+                            <h3 id="artistName">-</h3>
+                            <p class="artist-id">ID: <span id="artistId">-</span></p>
+                        </div>
+                        <div class="recommendation-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Estrategia:</span>
+                                <span class="detail-value strategy-badge" id="strategy">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Razón:</span>
+                                <span class="detail-value" id="reason">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Confianza:</span>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" id="confidenceFill"></div>
+                                </div>
+                                <span class="detail-value" id="confidence">0%</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Feedback -->
+                        <div class="feedback-section">
+                            <h4>💭 ¿Qué te pareció esta recomendación?</h4>
+                            <div class="feedback-buttons">
+                                <button class="btn btn-success" onclick="submitFeedback('positive')">
+                                    👍 Me gusta
+                                </button>
+                                <button class="btn btn-neutral" onclick="submitFeedback('neutral')">
+                                    😐 Neutral
+                                </button>
+                                <button class="btn btn-danger" onclick="submitFeedback('negative')">
+                                    👎 No me gusta
+                                </button>
+                            </div>
+                            <div id="feedbackResult" class="feedback-result"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Estadísticas del Agente -->
+            <section class="card">
+                <h2>📈 Estadísticas del Agente</h2>
+                <button id="loadStatsBtn" class="btn btn-secondary">Actualizar Estadísticas</button>
+                
+                <div id="statisticsContent" class="statistics-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-value" id="totalUsers">0</div>
+                            <div class="stat-label">Usuarios Activos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🎯</div>
+                            <div class="stat-value" id="totalRecommendations">0</div>
+                            <div class="stat-label">Recomendaciones</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⭐</div>
+                            <div class="stat-value" id="averageReward">0.00</div>
+                            <div class="stat-label">Recompensa Promedio</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📊</div>
+                            <div class="stat-value" id="activeSessions">0</div>
+                            <div class="stat-label">Sesiones Activas</div>
+                        </div>
+                    </div>
+
+                    <div class="strategy-performance" id="strategyPerformance">
+                        <h3>🎯 Rendimiento por Estrategia</h3>
+                        <div id="strategyStats"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Perfil del Usuario -->
+            <section class="card" id="userProfileSection" style="display: none;">
+                <h2>👤 Perfil del Usuario</h2>
+                <div id="userProfileContent" class="user-profile-content"></div>
+            </section>
+        </div>
+
+        <footer>
+            <p>Sistema de Recomendación Inteligente v1.0 | Arquitectura en capas con FastAPI + Flask</p>
+        </footer>
+    </div>
+
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <p>Cargando...</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
+
