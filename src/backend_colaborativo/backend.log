@@ -1,0 +1,31 @@
+Entrenando nuevo modelo...
+Cargando datos...
+Datos cargados: 1892 usuarios, 17632 artistas
+Creando matriz usuario-artista...
+Matriz creada: (1892, 17632)
+Entrenando modelo SVD con 50 componentes...
+Modelo entrenado. Varianza explicada: 0.288
+Modelo guardado en /home/igorov/cursos/dmc/git/sistema-recomendacion/src/backend_colaborativo/model.pkl
+Modelo listo!
+ * Serving Flask app 'api'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.18.97:5001
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 124-661-363
+127.0.0.1 - - [29/Nov/2025 10:41:06] "GET /user/2/validate HTTP/1.1" 200 -
+127.0.0.1 - - [29/Nov/2025 10:41:06] "GET /recommendations/2?top_k=12 HTTP/1.1" 200 -
+127.0.0.1 - - [29/Nov/2025 10:41:06] "GET /user/2/history?top_k=6 HTTP/1.1" 200 -
+127.0.0.1 - - [29/Nov/2025 10:41:20] "GET /user/14/validate HTTP/1.1" 200 -
+127.0.0.1 - - [29/Nov/2025 10:41:20] "GET /recommendations/14?top_k=12 HTTP/1.1" 200 -
+127.0.0.1 - - [29/Nov/2025 10:41:20] "GET /user/14/history?top_k=6 HTTP/1.1" 200 -
+127.0.0.1 - - [29/Nov/2025 10:41:29] "GET /user/15/validate HTTP/1.1" 200 -
+127.0.0.1 - - [29/Nov/2025 10:41:29] "GET /recommendations/15?top_k=12 HTTP/1.1" 200 -
+127.0.0.1 - - [29/Nov/2025 10:41:29] "GET /user/15/history?top_k=6 HTTP/1.1" 200 -
+127.0.0.1 - - [29/Nov/2025 10:42:16] "GET /user/2/validate HTTP/1.1" 200 -
+127.0.0.1 - - [29/Nov/2025 10:42:16] "GET /recommendations/2?top_k=12 HTTP/1.1" 200 -
+127.0.0.1 - - [29/Nov/2025 10:42:16] "GET /user/2/history?top_k=6 HTTP/1.1" 200 -

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Sistema de Recomendación Musical{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-body text-center p-4">
+                <h1 class="mb-2">
+                    <i class="bi bi-music-note-beamed text-primary"></i> 
+                    Hola, Usuario {{ user_id }}!
+                </h1>
+                <p class="text-secondary mb-0">
+                    <i class="bi bi-stars"></i> Descubre nueva música basada en tus gustos musicales
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if error %}
+<div class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+</div>
+{% endif %}
+
+<!-- Historial de Usuario -->
+{% if history %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="section-title">
+            <i class="bi bi-clock-history"></i> Tu Música Más Escuchada
+        </h2>
+        <div class="row">
+            {% for artist in history %}
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="artist-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="artist-name">
+                                <i class="bi bi-music-note"></i> {{ artist.name }}
+                            </div>
+                            <div class="mt-2">
+                                <span class="playcount-badge">
+                                    <i class="bi bi-play-circle"></i> {{ "{:,}".format(artist.playcount) }} reproducciones
+                                </span>
+                            </div>
+                        </div>
+                        {% if artist.url %}
+                        <a href="{{ artist.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-link-45deg"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Recomendaciones -->
+<div class="row">
+    <div class="col-12">
+        <h2 class="section-title">
+            <i class="bi bi-stars"></i> Recomendaciones Personalizadas para Ti
+        </h2>
+        
+        {% if recommendations %}
+        <div class="row">
+            {% for rec in recommendations %}
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="artist-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="badge bg-primary me-2">#{{ loop.index }}</span>
+                                <div class="artist-name">{{ rec.name }}</div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="artist-score">
+                                    <i class="bi bi-bar-chart-fill"></i> Score: {{ "%.3f"|format(rec.score) }}
+                                </span>
+                            </div>
+                        </div>
+                        {% if rec.url %}
+                        <a href="{{ rec.url }}" target="_blank" class="btn btn-sm btn-primary ms-2">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="card">
+            <div class="card-body text-center p-5">
+                <i class="bi bi-music-note-list" style="font-size: 4rem; color: var(--text-secondary);"></i>
+                <h4 class="mt-3 text-secondary">No hay recomendaciones disponibles</h4>
+                <p class="text-secondary">Intenta escuchar más música para obtener mejores recomendaciones</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Información adicional -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <i class="bi bi-lightning-charge text-primary" style="font-size: 2.5rem;"></i>
+                        <h5 class="mt-2">Filtrado Colaborativo</h5>
+                        <p class="text-secondary small">Basado en usuarios similares a ti</p>
+                    </div>
+                    <div class="col-md-4">
+                        <i class="bi bi-graph-up text-primary" style="font-size: 2.5rem;"></i>
+                        <h5 class="mt-2">Machine Learning</h5>
+                        <p class="text-secondary small">Algoritmo SVD para mejor precisión</p>
+                    </div>
+                    <div class="col-md-4">
+                        <i class="bi bi-star-fill text-primary" style="font-size: 2.5rem;"></i>
+                        <h5 class="mt-2">Personalizado</h5>
+                        <p class="text-secondary small">Recomendaciones únicas para ti</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto-hide flash messages after 5 seconds
+    setTimeout(function() {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+            const bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        });
+    }, 5000);
+</script>
+{% endblock %}
